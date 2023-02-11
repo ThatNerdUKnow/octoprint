@@ -12,3 +12,6 @@ strum = { version = "0.24.1", features = ["derive"] }
 strum_macros = "0.24.3"
 url = "2.3.1"
 url_serde = "0.2.0"
+
+[dev-dependencies]
+tokio = {version = "1.25.0", features = ["full"]}

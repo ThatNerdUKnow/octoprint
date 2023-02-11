@@ -43,9 +43,9 @@ impl OctoClientBuilder {
         })
     }
 
-    pub fn use_api_key<'a, K: AsRef<&'a str>>(
+    pub fn use_api_key<'a>(
         mut self,
-        key: K,
+        key: &'a str,
     ) -> Result<OctoClientBuilder, InvalidHeaderValue> {
         let mut token: String = String::from("Bearer ");
         token += key.as_ref();

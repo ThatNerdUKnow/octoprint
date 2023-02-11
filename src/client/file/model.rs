@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use url_serde;
 use url_serde::SerdeUrl as Url;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct FileInfo {
     /// The name of the file without path. E.G. "file.gco"
     /// for a file "file.gco" located anywhere in the file system.
@@ -33,7 +33,7 @@ pub struct FileInfo {
     pub type_path: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum ModelType {
     Model,
@@ -138,7 +138,7 @@ pub struct GCodeAnalysis {
     pub printing_area: Option<PrintingArea>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Filament {
     /// The length of the filament used, in mm
     pub length: f64,

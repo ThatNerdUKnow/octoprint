@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::client::OctoClient;
 
@@ -10,12 +10,17 @@ impl OctoClient {
     pub async fn current_job(&self) -> Result<JobInformationResponse, Box<dyn Error>> {
         let url = self.appendPathToBaseURL("/api/job")?;
         let request = self.client.get(url).build()?;
-        let response = self.client.execute(request).await?.json::<JobInformationResponse>().await?;
-        return Ok(response);        
+        let response = self
+            .client
+            .execute(request)
+            .await?
+            .json::<JobInformationResponse>()
+            .await?;
+        return Ok(response);
     }
 }
 
-#[derive(Serialize,Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct JobInformationResponse {
     /// Information regarding the target of the current print job
     job: JobInfo,
