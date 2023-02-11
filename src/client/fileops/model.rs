@@ -27,7 +27,7 @@ pub struct FileInfo {
     pub model_type: ModelType,
     /// Path to type of file in extension tree. E.g.
     /// `["model","stl"]` for `.stl`
-    /// files or `["machinecode","gcode"]` for 
+    /// files or `["machinecode","gcode"]` for
     /// `.gcode` files. `["folder"]` for folders
     #[serde(rename = "typePath")]
     pub type_path: Vec<String>,
@@ -77,7 +77,7 @@ pub struct File {
     /// Information about previous prints of the file.
     /// Left out if the file has never been printed
     pub prints: Option<PrintHistory>,
-    /// Statistics about the file, based on the previous print times. 
+    /// Statistics about the file, based on the previous print times.
     /// Left out if the file has never been printed
     pub statistics: Option<PrintStatistics>,
 }
@@ -127,17 +127,26 @@ pub struct PrintStatistics {
 
 #[derive(Serialize, Deserialize)]
 pub struct GCodeAnalysis {
+    /// The estimated print time of the file, in seconds
     #[serde(rename = "estimatedPrintTime")]
     pub estimated_print_time: Option<f64>,
+    /// The esimated usage of filament
     pub filament: Option<Filament>,
+    pub dimenstions: Option<Dimensions>,
+    /// Information regarding the size of the printing area
+    #[serde(rename = "printingArea")]
+    pub printing_area: Option<PrintingArea>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Filament {
+    /// The length of the filament used, in mm
     pub length: f64,
+    /// The volume of filament used, in cm³
     pub volume: f64,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Dimensions {
     pub depth: f64,
     pub height: f64,
@@ -146,10 +155,16 @@ pub struct Dimensions {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PrintingArea {
+    /// The maximum X coordinate of the printed model, in mm
     pub max_x: f64,
+    /// The maximum Y coordinate of the printed model, in mm
     pub max_y: f64,
+    /// The maximum Z coordinate of the printed model, in mm
     pub max_z: f64,
+    /// The minimum X coordinate of the printed model, in mm
     pub min_x: f64,
+    /// The minimum Y coordinate of the printed model, in mm
     pub min_y: f64,
+    /// The minimum Z coordinate of the printed model, in mm
     pub min_z: f64,
 }
