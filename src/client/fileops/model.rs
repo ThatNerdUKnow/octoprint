@@ -103,10 +103,15 @@ pub struct References {
 
 #[derive(Serialize, Deserialize)]
 pub struct PrintHistory {
+    /// Number of successful prints
     pub success: usize,
+    /// Number of failed prints
     pub failure: usize,
+    /// Last date this file was printed
     pub last_date: usize,
+    /// Last print time in seconds
     pub last_print_time: f64,
+    /// Whether the last print was a success or not
     pub last_success: bool,
 }
 
