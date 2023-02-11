@@ -117,8 +117,10 @@ pub struct PrintHistory {
 
 #[derive(Serialize, Deserialize)]
 pub struct PrintStatistics {
+    /// Object that maps printer profile names to the last print time of the file, in seconds
     #[serde(rename = "averagePrintTime")]
     pub average_print_time: HashMap<String, usize>,
+    /// Object that maps printer profile names to the average print time of the file, in seconds
     #[serde(rename = "lastPrintTime")]
     pub last_print_time: HashMap<String, usize>,
 }
