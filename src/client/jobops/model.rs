@@ -19,18 +19,18 @@ pub struct JobInfo {
 #[derive(Serialize,Deserialize)]
 pub struct ProgressInfo{
     /// Percentage of the completion of the current print job
-    completion: f64,
+    pub completion: f64,
     /// Current position in the file being printed in bytes from the beginning
-    filepos: usize,
+    pub filepos: usize,
     /// Time already spent printing in seconds
     #[serde(rename="printTime")]
-    print_time: usize,
+    pub print_time: usize,
     /// Estimate of time left to print in seconds
     #[serde(rename="printTimeLeft")]
-    print_time_left: usize,
+    pub print_time_left: usize,
     /// Origin of the current time left estimate
     #[serde(rename="printTImeLeftOrigin")]
-    print_time_left_origin: PrintTImeLeftOrigin
+    pub print_time_left_origin: PrintTImeLeftOrigin
 }
 
 #[derive(Serialize,Deserialize)]
