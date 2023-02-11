@@ -3,6 +3,7 @@ use reqwest::Url;
 use reqwest::{Client, ClientBuilder, IntoUrl};
 
 pub mod fileops;
+pub mod jobops;
 pub struct OctoClient {
     client: Client,
     base_url: Url,
