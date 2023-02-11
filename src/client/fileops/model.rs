@@ -55,14 +55,30 @@ pub struct Folder {
 
 #[derive(Serialize, Deserialize)]
 pub struct File {
+    /// MD5 hash of the file. Only available for
+    /// `local` files
     pub hash: Option<String>,
+    /// The size of the file in bytes. Only available
+    /// for `local` files or `sdcard` files if the printer
+    /// supports file siszes for sd card files.
     pub size: Option<usize>,
+    /// The timestamp when this file was uploaded. Only available for `local` files
     pub date: Option<usize>,
+    /// The origin of the file. `local` when stored in OctoPrint's `uploads` folder,
+    /// `sdcard` when stored on the printer's SD card (if available)
     pub origin: FileOrigin,
+    /// References relevant to this file, left out in
+    /// abridged version
     pub refs: Option<References>,
+    /// Information from the analysis of the GCODE file.
+    /// if available. Left out in abridged version
     #[serde(rename = "gcodeAnalysis")]
     pub gcode_analysis: Option<GCodeAnalysis>,
+    /// Information about previous prints of the file.
+    /// Left out if the file has never been printed
     pub prints: Option<PrintHistory>,
+    /// Statistics about the file, based on the previous print times. 
+    /// Left out if the file has never been printed
     pub statistics: Option<PrintStatistics>,
 }
 
