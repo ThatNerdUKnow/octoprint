@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::client::fileops::model::{FileInfo, Filament};
+use crate::client::file::model::{FileInfo, Filament};
 
 #[derive(Serialize, Deserialize)]
 pub struct JobInfo {

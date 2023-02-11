@@ -2,9 +2,9 @@ use reqwest::header::{HeaderMap, HeaderValue, InvalidHeaderValue};
 use reqwest::Url;
 use reqwest::{Client, ClientBuilder, IntoUrl};
 
-pub mod fileops;
-pub mod jobops;
-pub mod printerops;
+pub mod file;
+pub mod job;
+pub mod printer;
 pub struct OctoClient {
     client: Client,
     base_url: Url,
