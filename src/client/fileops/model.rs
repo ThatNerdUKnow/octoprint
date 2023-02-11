@@ -43,7 +43,13 @@ pub enum ModelType {
 
 #[derive(Serialize, Deserialize)]
 pub struct Folder {
-    pub children: Vec<FileInfo>,
+    /// Contained children for entries
+    /// of type `folder`. On non recursive listings only present on
+    /// the first level sub folders!
+    pub children: Option<Vec<FileInfo>>,
+    /// The size of all files contained
+    /// in the folder and its subfolders.
+    /// Not present in non recursive listings!
     pub size: Option<usize>,
 }
 
