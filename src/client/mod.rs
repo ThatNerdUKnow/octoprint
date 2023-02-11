@@ -2,6 +2,7 @@ use reqwest::header::{HeaderMap, HeaderValue, InvalidHeaderValue};
 use reqwest::Url;
 use reqwest::{Client, ClientBuilder, IntoUrl};
 
+pub mod fileops;
 pub struct OctoClient {
     client: Client,
     baseURL: Url,
