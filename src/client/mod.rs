@@ -5,13 +5,13 @@ use reqwest::{Client, ClientBuilder, IntoUrl};
 pub mod fileops;
 pub struct OctoClient {
     client: Client,
-    baseURL: Url,
+    base_url: Url,
 }
 
 pub struct OctoClientBuilder {
     builder: ClientBuilder,
     headers: HeaderMap,
-    baseURL: Url,
+    base_url: Url,
 }
 
 impl OctoClient {
@@ -25,7 +25,7 @@ impl OctoClientBuilder {
         Ok(OctoClientBuilder {
             builder: ClientBuilder::new(),
             headers: HeaderMap::new(),
-            baseURL: url.into_url()?,
+            base_url: url.into_url()?,
         })
     }
 
@@ -33,7 +33,7 @@ impl OctoClientBuilder {
         let client: Client = self.builder.build()?;
         Ok(OctoClient {
             client: client,
-            baseURL: self.baseURL,
+            base_url: self.base_url,
         })
     }
 
