@@ -91,8 +91,13 @@ pub enum FileOrigin {
 
 #[derive(Serialize, Deserialize)]
 pub struct References {
+    /// The resource that represents the file or folder
+    /// (e.g. for issuing commands to or for deleting)
     pub resource: Url,
+    /// THe download URL for the file. Never present for folders.
     pub download: Option<Url>,
+    /// The model from which this file was generated (e.g. an STL, currently not used).
+    /// Never present for folders
     pub model: Option<Url>,
 }
 
