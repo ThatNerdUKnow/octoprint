@@ -20,6 +20,10 @@ impl OctoClient {
     pub fn new<U: IntoUrl>(url: U) -> Result<OctoClientBuilder, reqwest::Error> {
         OctoClientBuilder::new(url)
     }
+
+    fn appendPathToBaseURL<'a>(&self, path: &'a str) -> Result<Url, url::ParseError> {
+        self.base_url.join(path)
+    }
 }
 
 impl OctoClientBuilder {
