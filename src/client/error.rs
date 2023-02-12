@@ -16,6 +16,6 @@ pub enum OctoClientError{
     Construct,
     #[error("There was a problem building a request")]
     BuildRequest,
-    #[error("There was a problem executing a request {0:?}")]
-    Request(Request)
+    #[error("There was a problem executing a request")]
+    Request
 }

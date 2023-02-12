@@ -1,20 +1,25 @@
 use std::error::Error;
 
+use crate::client::{error::OctoClientError, OctoClient};
+use error_stack::{IntoReport, Result, ResultExt};
 use serde::{Deserialize, Serialize};
-
-use crate::client::OctoClient;
 
 use super::model::{JobInfo, ProgressInfo};
 
 impl OctoClient {
-    pub async fn current_job(&self) -> Result<JobInformationResponse, Box<dyn Error>> {
+    pub async fn current_job(&self) -> Result<JobInformationResponse, OctoClientError> {
         let request = self.get("/api/job")?;
+
         let response = self
             .client
             .execute(request)
-            .await?
+            .await
+            .into_report()
+            .change_context(OctoClientError::Request)?
             .json::<JobInformationResponse>()
-            .await?;
+            .await
+            .into_report()
+            .change_context(OctoClientError::Request)?;
         return Ok(response);
     }
 }
