@@ -8,8 +8,7 @@ use super::model::{JobInfo, ProgressInfo};
 
 impl OctoClient {
     pub async fn current_job(&self) -> Result<JobInformationResponse, Box<dyn Error>> {
-        let url = self.appendPathToBaseURL("/api/job")?;
-        let request = self.client.get(url).build()?;
+        let request = self.get("/api/job")?;
         let response = self
             .client
             .execute(request)
