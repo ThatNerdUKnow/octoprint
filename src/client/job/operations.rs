@@ -8,14 +8,19 @@ use super::model::{JobInfo, ProgressInfo};
 
 impl OctoClient {
     pub async fn current_job(&self) -> Result<JobInformationResponse, OctoClientError> {
+        // Build http request
         let request = self.get("/api/job")?;
 
-        let response = self
+        // Execute request
+        let raw_response = self
             .client
             .execute(request)
             .await
             .into_report()
-            .change_context(OctoClientError::Request)?
+            .change_context(OctoClientError::Request)?;
+
+        // Parse response
+        let response = raw_response
             .json::<JobInformationResponse>()
             .await
             .into_report()
