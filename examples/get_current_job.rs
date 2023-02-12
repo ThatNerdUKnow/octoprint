@@ -1,15 +1,21 @@
-use std::{env, error::Error};
 use dotenv::dotenv;
+use std::{env, error::Error};
 
-use octoprint::client::{OctoClient, OctoClientBuilder};
+use octoprint::client::{AuthenticationMethod, OctoClient, OctoClientBuilder};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv().ok();
+    // Get environment variables
     let url: String = env::var("OCTOPRINT_URL")?;
     let key: String = env::var("OCTOPRINT_API_KEY")?;
-    let octo = OctoClient::new(&url)?.use_api_key(&key)?.build()?;
 
+    let creds: AuthenticationMethod = AuthenticationMethod::Bearer(key);
+
+    // Instantiate a client
+    let octo = OctoClient::new(&url)?.use_credentials(creds).build()?;
+
+    // execute a query against the octoprint api to get the current job
     let currentJob = octo.current_job().await?;
     println!("{currentJob:?}");
     Ok(())
