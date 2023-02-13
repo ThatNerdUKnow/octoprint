@@ -1,6 +1,4 @@
-use std::error::Error;
-
-use reqwest::{IntoUrl, Request, RequestBuilder};
+use reqwest::{Request, RequestBuilder};
 
 use super::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};

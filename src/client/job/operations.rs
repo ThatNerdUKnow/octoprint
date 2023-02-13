@@ -1,5 +1,3 @@
-use std::error::Error;
-
 use crate::client::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
 use serde::{Deserialize, Serialize};

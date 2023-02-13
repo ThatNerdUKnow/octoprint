@@ -1,4 +1,3 @@
-use reqwest::header::HeaderMap;
 use reqwest::Url;
 use reqwest::{Client, ClientBuilder, IntoUrl};
 use error_stack::{Result, IntoReport, ResultExt};
@@ -18,7 +17,6 @@ pub struct OctoClient {
 
 pub struct OctoClientBuilder {
     builder: ClientBuilder,
-    headers: HeaderMap,
     base_url: Url,
     auth_credentials: Option<AuthenticationMethod>,
 }
@@ -44,7 +42,6 @@ impl OctoClientBuilder {
     pub fn new<U: IntoUrl>(url: U) -> Result<OctoClientBuilder, reqwest::Error> {
         Ok(OctoClientBuilder {
             builder: ClientBuilder::new(),
-            headers: HeaderMap::new(),
             base_url: url.into_url()?,
             auth_credentials: None,
         })
