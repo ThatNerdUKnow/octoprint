@@ -8,6 +8,9 @@ pub mod file;
 mod helpers;
 pub mod job;
 pub mod printer;
+mod builder;
+
+pub use builder::OctoClientBuilder;
 
 pub struct OctoClient {
     client: Client,
@@ -15,11 +18,7 @@ pub struct OctoClient {
     auth_credentials: AuthenticationMethod,
 }
 
-pub struct OctoClientBuilder {
-    builder: ClientBuilder,
-    base_url: Url,
-    auth_credentials: Option<AuthenticationMethod>,
-}
+
 
 
 pub enum AuthenticationMethod {
@@ -38,28 +37,3 @@ impl OctoClient {
     }
 }
 
-impl OctoClientBuilder {
-    pub fn new<U: IntoUrl>(url: U) -> Result<OctoClientBuilder, reqwest::Error> {
-        Ok(OctoClientBuilder {
-            builder: ClientBuilder::new(),
-            base_url: url.into_url()?,
-            auth_credentials: None,
-        })
-    }
-
-    pub fn build(self) -> Result<OctoClient, BuilderError> {
-        let err = BuilderError::Build;
-        let client: Client = self.builder.build().into_report().change_context(err)?;
-        let credentials = self.auth_credentials.ok_or(BuilderError::Build)?;
-        Ok(OctoClient {
-            client: client,
-            base_url: self.base_url,
-            auth_credentials: credentials,
-        })
-    }
-
-    pub fn use_credentials(mut self, creds: AuthenticationMethod) -> Self {
-        self.auth_credentials = Some(creds);
-        self
-    }
-}
