@@ -29,12 +29,12 @@ pub struct ProgressInfo {
     #[serde(rename = "printTimeLeft")]
     pub print_time_left: usize,
     /// Origin of the current time left estimate
-    #[serde(rename = "printTImeLeftOrigin")]
-    pub print_time_left_origin: PrintTImeLeftOrigin,
+    #[serde(rename = "printTimeLeftOrigin")]
+    pub print_time_left_origin: PrintTimeLeftOrigin,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub enum PrintTImeLeftOrigin {
+pub enum PrintTimeLeftOrigin {
     /// Based on a linear approximation of the progress in the file in bytes vs time
     #[serde(rename = "linear")]
     Linear,
