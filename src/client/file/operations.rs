@@ -1,7 +1,7 @@
 use error_stack::{IntoReport, Result, ResultExt};
 use serde::{Deserialize, Serialize};
 
-use super::model::FileInfo;
+use super::model::{FileInfo, FileOrigin};
 use crate::client::{error::OctoClientError, OctoClient};
 
 impl OctoClient {
@@ -9,12 +9,13 @@ impl OctoClient {
         &self,
         recursive: bool,
         bypass_cache: bool,
-        location: Option<&str>
+        location: Option<FileOrigin>
     ) -> Result<RetrieveResponse, OctoClientError> {
         let url = match location{
             Some(location) => format!("/api/files/{location}"),
             None => "/api/files".to_owned(),
         };
+
         let mut builder = self.get(&url)?;
 
         if recursive {

@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
+use strum::{EnumString, Display};
 use url_serde;
 use url_serde::SerdeUrl as Url;
 
@@ -82,7 +83,7 @@ pub struct File {
     pub statistics: Option<PrintStatistics>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, EnumString, Display)]
 #[serde(rename_all = "lowercase")]
 pub enum FileOrigin {
     Local,
