@@ -64,4 +64,5 @@ pub enum JobInformationResponse {
         /// Any error message for the job or connection. Only set if there has been an error
         error: Option<String>,
     },
+    Unknown
 }
