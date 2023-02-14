@@ -16,5 +16,7 @@ pub enum OctoClientError{
     #[error("There was a problem building a request")]
     BuildRequest,
     #[error("There was a problem executing a request")]
-    Request
+    Request,
+    #[error("There was a problem parsing a request")]
+    Parse
 }

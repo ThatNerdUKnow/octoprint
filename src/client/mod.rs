@@ -1,14 +1,13 @@
+use error_stack::{IntoReport, Result};
 use reqwest::Url;
-use reqwest::{Client, ClientBuilder, IntoUrl};
-use error_stack::{Result, IntoReport, ResultExt};
-use self::error::BuilderError;
+use reqwest::{Client, IntoUrl};
 
+mod builder;
 pub mod error;
 pub mod file;
 mod helpers;
 pub mod job;
 pub mod printer;
-mod builder;
 
 pub use builder::OctoClientBuilder;
 
@@ -17,9 +16,6 @@ pub struct OctoClient {
     base_url: Url,
     auth_credentials: AuthenticationMethod,
 }
-
-
-
 
 pub enum AuthenticationMethod {
     Bearer(String),
@@ -36,4 +32,3 @@ impl OctoClient {
         url
     }
 }
-
