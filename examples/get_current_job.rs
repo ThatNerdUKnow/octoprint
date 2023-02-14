@@ -17,6 +17,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // execute a query against the octoprint api to get the current job
     let current_job = octo.current_job().await?;
+    
     println!("{current_job:?}");
     Ok(())
 }
