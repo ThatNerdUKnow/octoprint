@@ -4,8 +4,13 @@ use super::{error::OctoClientError, OctoClient};
 use error_stack::{Result, ResultExt};
 
 impl OctoClient {
-    /// Wrapper around http get request, you only need to provide a relative path to the base url defined when you constructed OctoClient.
-    /// This will automatically authenticate and build your request. please note that you still have to execute and await the request yourself
+    /// Wrapper around http get request.
+    /// This will automatically authenticate your request.
+    /// Please note that you sill have to build, execute and await the request yourself
+    /// 
+    ///  # Arguments
+    /// 
+    /// * `path` - A relative HTTP path
     pub(super) fn get(&self, path: &str) -> Result<RequestBuilder, OctoClientError> {
         let url = self
             .append_path_to_base_url(path)
@@ -18,6 +23,15 @@ impl OctoClient {
         Ok(builder)
     }
 
+    /// Wrapper around http post request. 
+    /// This will automatically authenticate your request.
+    /// Please note that you still have to build, execute and await the 
+    /// request yourself
+    /// 
+    /// # Arguments
+    /// 
+    /// * `path` - A relative HTTP path
+    /// * `payload` - A serialized body for this post request
     pub(super) fn post(
         &self,
         path: &str,
@@ -36,7 +50,7 @@ impl OctoClient {
         Ok(builder)
     }
 
-    /// Add proper authentication headers depending on provided authentication method
+    /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
     fn add_auth(&self, request: RequestBuilder) -> RequestBuilder {
         match &self.auth_credentials {
             super::AuthenticationMethod::Bearer(token) => request.bearer_auth(token),
