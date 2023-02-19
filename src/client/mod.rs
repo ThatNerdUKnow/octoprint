@@ -4,10 +4,15 @@ use reqwest::{Client, IntoUrl};
 
 mod builder;
 pub mod error;
+/// File operations and data model
 pub mod file;
 mod helpers;
+/// Job operations and data model
 pub mod job;
+/// Printer operations and data model
 pub mod printer;
+/// Octoprint API operations and data model
+pub mod server;
 
 pub use builder::OctoClientBuilder;
 
