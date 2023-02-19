@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 // TODO /api/login
 // TODO /api/logout
+/// # Server operations
 impl OctoClient {
     /// Retrieves information about the current user
     pub async fn get_current_user(&self) -> Result<CurrentUser, OctoClientError> {

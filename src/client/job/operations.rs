@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use super::model::{JobInfo, ProgressInfo};
 
+/// # Job operations
 impl OctoClient {
     /// Retrieve information about the current job (if there is one).
     /// 
