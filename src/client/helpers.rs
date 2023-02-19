@@ -1,7 +1,7 @@
-use reqwest::RequestBuilder;
+use reqwest::{RequestBuilder, Request, Response};
 
 use super::{error::OctoClientError, OctoClient};
-use error_stack::{Result, ResultExt};
+use error_stack::{Result, ResultExt, IntoReport};
 
 impl OctoClient {
     /// Wrapper around http get request.
@@ -48,6 +48,10 @@ impl OctoClient {
         builder = builder.body(payload.to_owned());
 
         Ok(builder)
+    }
+
+    pub(super) async fn execute(&self,request:Request) -> Result<Response,OctoClientError>{
+        Ok(self.client.execute(request).await.into_report().change_context(OctoClientError::Execute)?)
     }
 
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]

@@ -14,12 +14,7 @@ impl OctoClient {
             .change_context(OctoClientError::BuildRequest)?;
 
         // Execute request
-        let raw_response = self
-            .client
-            .execute(request)
-            .await
-            .into_report()
-            .change_context(OctoClientError::Request)?;
+        let raw_response = self.execute(request).await?;
 
         // Parse response
         let response = raw_response
