@@ -54,18 +54,21 @@ impl OctoClient {
 #[derive(Serialize, Deserialize)]
 pub struct VersionInfo {
     /// API Version
-    api: String,
+    pub api: String,
     /// Server version
-    server: String,
+    pub server: String,
     /// Server version plus the prefix `OctoPrint`
     /// (to determine that this is indeed a genuine OctoPrint instance)
-    text: String,
+    pub text: String,
 }
 
+/// Information regarding server status
 #[derive(Serialize, Deserialize)]
 pub struct ServerInfo {
-    version: String,
-    safemode: SafeMode,
+    /// Contains the server version
+    pub version: String,
+    /// Indicates if the server is running in safe mode
+    pub safemode: SafeMode,
 }
 
 #[derive(Serialize, Deserialize)]

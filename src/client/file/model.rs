@@ -86,7 +86,9 @@ pub struct File {
 #[derive(Serialize, Deserialize, EnumString, Display)]
 #[serde(rename_all = "lowercase")]
 pub enum FileOrigin {
+    /// File resides on local storage
     Local,
+    /// File resides on an SD Card
     SDCard,
 }
 
