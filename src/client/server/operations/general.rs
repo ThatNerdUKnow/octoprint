@@ -33,6 +33,21 @@ impl OctoClient {
         let version_info = self.parse::<VersionInfo>(raw).await;
         version_info
     }
+
+    /// Retrieve information regarding server status.
+    pub async fn server_information(&self) -> Result<ServerInfo, OctoClientError> {
+        let request = self
+            .get("/api/server")?
+            .build()
+            .into_report()
+            .change_context(OctoClientError::BuildRequest)?;
+
+        let raw = self.execute(request).await?;
+
+        let server_info = self.parse::<ServerInfo>(raw).await;
+
+        server_info
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -44,4 +59,23 @@ pub struct VersionInfo {
     /// Server version plus the prefix `OctoPrint`
     /// (to determine that this is indeed a genuine OctoPrint instance)
     text: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct ServerInfo {
+    version: String,
+    safemode: SafeMode,
+}
+
+#[derive(Serialize, Deserialize)]
+pub enum SafeMode {
+    #[serde(rename = "settings")]
+    Settings,
+    #[serde(rename = "incomplete_startup")]
+    IncompleteStartup,
+    #[serde(rename = "flag")]
+    Flag,
+    /// This should always be false, but I'll come back to it later if I can figure out how to get
+    /// serde to do that
+    NotSafeMode(bool),
 }
