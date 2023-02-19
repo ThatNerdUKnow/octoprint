@@ -1,15 +1,16 @@
-use reqwest::{RequestBuilder, Request, Response};
+use reqwest::{Request, RequestBuilder, Response};
+use serde::{de::DeserializeOwned, Deserialize};
 
 use super::{error::OctoClientError, OctoClient};
-use error_stack::{Result, ResultExt, IntoReport};
+use error_stack::{IntoReport, Result, ResultExt};
 
 impl OctoClient {
     /// Wrapper around http get request.
     /// This will automatically authenticate your request.
     /// Please note that you sill have to build, execute and await the request yourself
-    /// 
+    ///
     ///  # Arguments
-    /// 
+    ///
     /// * `path` - A relative HTTP path
     pub(super) fn get(&self, path: &str) -> Result<RequestBuilder, OctoClientError> {
         let url = self
@@ -23,13 +24,13 @@ impl OctoClient {
         Ok(builder)
     }
 
-    /// Wrapper around http post request. 
+    /// Wrapper around http post request.
     /// This will automatically authenticate your request.
-    /// Please note that you still have to build, execute and await the 
+    /// Please note that you still have to build, execute and await the
     /// request yourself
-    /// 
+    ///
     /// # Arguments
-    /// 
+    ///
     /// * `path` - A relative HTTP path
     /// * `payload` - A serialized body for this post request
     pub(super) fn post(
@@ -50,10 +51,26 @@ impl OctoClient {
         Ok(builder)
     }
 
-    pub(super) async fn execute(&self,request:Request) -> Result<Response,OctoClientError>{
-        Ok(self.client.execute(request).await.into_report().change_context(OctoClientError::Execute)?)
+    /// Execute a request and wrap it in an [`OctoClientError`] context in the event of an error
+    pub(super) async fn execute(&self, request: Request) -> Result<Response, OctoClientError> {
+        Ok(self
+            .client
+            .execute(request)
+            .await
+            .into_report()
+            .change_context(OctoClientError::Execute)?)
     }
 
+    /// Parse a response and wrap it in an [`OctoClientError`] in the event of an error
+    pub(super) async fn parse<T: DeserializeOwned>(
+        &self,
+        raw: Response,
+    ) -> Result<T, OctoClientError> {
+        raw.json::<T>()
+            .await
+            .into_report()
+            .change_context(OctoClientError::Parse)
+    }
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
     fn add_auth(&self, request: RequestBuilder) -> RequestBuilder {
         match &self.auth_credentials {

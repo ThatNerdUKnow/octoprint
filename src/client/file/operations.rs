@@ -9,9 +9,9 @@ impl OctoClient {
         &self,
         recursive: bool,
         bypass_cache: bool,
-        location: Option<FileOrigin>
+        location: Option<FileOrigin>,
     ) -> Result<RetrieveResponse, OctoClientError> {
-        let url = match location{
+        let url = match location {
             Some(location) => format!("/api/files/{location}"),
             None => "/api/files".to_owned(),
         };
@@ -31,15 +31,11 @@ impl OctoClient {
             .into_report()
             .change_context(OctoClientError::BuildRequest)?;
 
-        let raw_response = self.execute(request).await?;
+        let raw = self.execute(request).await?;
 
-            let response = raw_response
-            .json()
-            .await
-            .into_report()
-            .change_context(OctoClientError::Parse)?;
-        
-        Ok(response)
+        let response = self.parse::<RetrieveResponse>(raw).await;
+
+        response
     }
 }
 

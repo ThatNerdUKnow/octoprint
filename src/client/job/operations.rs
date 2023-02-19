@@ -5,6 +5,9 @@ use serde::{Deserialize, Serialize};
 use super::model::{JobInfo, ProgressInfo};
 
 impl OctoClient {
+    /// Retrieve information about the current job (if there is one).
+    /// 
+    /// Requires the `STATUS` permission
     pub async fn current_job(&self) -> Result<JobInformationResponse, OctoClientError> {
         // Build http request
         let request = self
@@ -14,15 +17,11 @@ impl OctoClient {
             .change_context(OctoClientError::BuildRequest)?;
 
         // Execute request
-        let raw_response = self.execute(request).await?;
+        let raw = self.execute(request).await?;
 
         // Parse response
-        let response = raw_response
-            .json::<JobInformationResponse>()
-            .await
-            .into_report()
-            .change_context(OctoClientError::Parse)?;
-        return Ok(response);
+        let response = self.parse::<JobInformationResponse>(raw).await;
+        response
     }
 }
 /*
