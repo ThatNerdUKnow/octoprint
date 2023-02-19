@@ -4,6 +4,26 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
+use self::temperature::TemperatureState;
+
+#[derive(Serialize, Deserialize)]
+pub enum FullStateResponse {
+    Online {
+        /// The printer's temperature state data
+        temperature: TemperatureState,
+        // The printer's sd state data
+        sd: SDState,
+        /// The printer's general state
+        state: PrinterState,
+    },
+    Offline {
+        /// The printer's general state
+        state: PrinterState,
+    },
+    Other,
+}
+
+/// The printer's general state
 #[derive(Serialize, Deserialize)]
 pub struct PrinterState {
     /// A textual representation of the current state of the printer
@@ -13,6 +33,7 @@ pub struct PrinterState {
     flags: PrinterStateFlags,
 }
 
+/// A few boolean printer state flags
 #[derive(Serialize, Deserialize)]
 pub struct PrinterStateFlags {
     /// `true` if the printer is operational, `false` otherwise
@@ -45,4 +66,11 @@ pub struct ResendStats {
     pub transmitted: usize,
     /// Percentage of resend requests vs transmitted lines. Value between 0 and 100
     pub ratio: usize,
+}
+
+/// The printer's sd state data
+#[derive(Serialize, Deserialize)]
+pub struct SDState {
+    /// Whether the SD card has been initalized
+    ready: bool,
 }
