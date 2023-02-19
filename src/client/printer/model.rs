@@ -1,3 +1,7 @@
+pub mod temperature;
+
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -32,20 +36,6 @@ pub struct PrinterStateFlags {
     #[serde(rename = "closedError")]
     pub closed_error: bool,
 }
-
-#[derive(Serialize, Deserialize)]
-pub struct TemperatureData {
-    /// Current temperature
-    pub actual: f64,
-    /// Target temperature, may be `None` if no target temperature is set
-    pub target: Option<f64>,
-    /// Currently configured temperature offset to apply, will be left out for historic temperature information
-    pub offset: Option<f64>,
-}
-
-// TODO historic temperature data point
-
-// TODO temperature offset
 
 #[derive(Serialize, Deserialize)]
 pub struct ResendStats {
