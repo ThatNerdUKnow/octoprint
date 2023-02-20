@@ -4,14 +4,14 @@ use error_stack::Result;
 
 /// # Printer operations
 impl OctoClient {
-    /// Retrieves the current state of the printer. 
+    /// Retrieves the current state of the printer.
     /// # Parameters
     /// - `history` set this to `true` if you want to retrieve historical temperature data
     /// - `limit` set this to [`Some<usize>`] to limit The number of history entries to return
     /// - Note that this endpoint also supports the `exclude` query parameter, but for my own sanity, I've left this for later
-    /// 
+    ///
     /// Requires the `STATUS` permission
-    pub async  fn get_printer_state(
+    pub async fn get_printer_state(
         &self,
         history: bool,
         limit: Option<usize>,
@@ -28,7 +28,10 @@ impl OctoClient {
             request_builder = request_builder.query(&["limit", limit_number])
         };
 
-        let request = request_builder.build()?;
+        let request = request_builder
+            .build()
+            .into_report()
+            .change_context(OctoClientError::BuildRequest)?;
 
         let raw = self.execute(request).await?;
 
