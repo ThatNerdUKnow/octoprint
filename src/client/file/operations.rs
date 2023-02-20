@@ -31,11 +31,11 @@ impl OctoClient {
         let mut builder = self.get(&url)?;
 
         if recursive {
-            builder = builder.query(&("recursive", true));
+            builder = builder.query(&[("recursive", true)]);
         }
 
         if bypass_cache {
-            builder = builder.query(&("force", true));
+            builder = builder.query(&[("force", true)]);
         }
 
         let request = builder
