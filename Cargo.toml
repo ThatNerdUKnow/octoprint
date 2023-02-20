@@ -2,6 +2,8 @@
 name = "octoprint"
 version = "0.1.0"
 edition = "2021"
+description = "(WIP) A client library for the Octoprint REST API"
+license = "GPL-3.0-or-later"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,4 +19,4 @@ url_serde = "0.2.0"
 
 [dev-dependencies]
 dotenv = "0.15.0"
-tokio = {version = "1.25.0", features = ["full"]}
+tokio = { version = "1.25.0", features = ["full"] }
