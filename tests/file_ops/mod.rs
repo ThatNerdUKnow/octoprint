@@ -1,4 +1,3 @@
-mod common;
 use crate::common::get_client;
 use lazy_static::lazy_static;
 use octoprint::client::{file::model::FileOrigin, OctoClient};
