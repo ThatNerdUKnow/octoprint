@@ -1,10 +1,13 @@
 mod common;
-
 use common::get_client;
+use lazy_static::lazy_static;
+use octoprint::client::OctoClient;
+
+lazy_static! {
+    static ref OCTO: OctoClient = get_client();
+}
 
 #[tokio::test]
 async fn get_job() {
-    let octo = get_client();
-
-    octo.current_job().await.unwrap();
+    OCTO.current_job().await.unwrap();
 }

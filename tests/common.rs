@@ -1,5 +1,5 @@
-use dotenv::dotenv;
 use std::env;
+use dotenv::dotenv;
 
 use octoprint::client::{AuthenticationMethod, OctoClient};
 

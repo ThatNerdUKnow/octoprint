@@ -436,6 +436,7 @@ version = "0.1.0"
 dependencies = [
  "dotenv",
  "error-stack",
+ "lazy_static",
  "reqwest",
  "serde",
  "strum",
