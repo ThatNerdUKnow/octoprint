@@ -28,7 +28,7 @@ impl OctoClient {
             request_builder = request_builder.query(&["limit", limit_number])
         };
 
-        let request = request_builder.build();
+        let request = request_builder.build()?;
 
         let raw = self.execute(request).await?;
 
