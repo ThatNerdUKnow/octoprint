@@ -1,6 +1,6 @@
 use super::model::FullStateResponse;
 use crate::client::{error::OctoClientError, OctoClient};
-use error_stack::Result;
+use error_stack::{IntoReport, Result, ResultExt};
 
 /// # Printer operations
 impl OctoClient {
@@ -21,11 +21,11 @@ impl OctoClient {
         let mut request_builder = self.get(url)?;
 
         if history {
-            request_builder = request_builder.query(&["history", true])
+            request_builder = request_builder.query(&["history", "true"])
         }
 
         if let Some(limit_number) = limit {
-            request_builder = request_builder.query(&["limit", limit_number])
+            request_builder = request_builder.query(&["limit", &format!("{limit_number}")])
         };
 
         let request = request_builder

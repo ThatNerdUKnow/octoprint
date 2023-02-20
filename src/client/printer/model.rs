@@ -1,7 +1,5 @@
 pub mod temperature;
 
-use std::collections::HashMap;
-
 use serde::{Deserialize, Serialize};
 
 use self::temperature::TemperatureState;

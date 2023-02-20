@@ -1,5 +1,5 @@
 use reqwest::{Request, RequestBuilder, Response};
-use serde::{de::DeserializeOwned, Deserialize};
+use serde::de::DeserializeOwned;
 
 use super::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
