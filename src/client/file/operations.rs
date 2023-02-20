@@ -15,6 +15,8 @@ impl OctoClient {
     /// - `location` optionally restrict files depending on which location they are stored.
     /// [`FileOrigin::SDCard`] To only return files on the SD card.
     /// [`FileOrigin::Local`] to only return files on local storage
+    /// 
+    /// Requires the `FILES_LIST` permission
     pub async fn get_files(
         &self,
         recursive: bool,
@@ -56,6 +58,8 @@ impl OctoClient {
     /// - `location` Which location to look for the requested file. [`FileOrigin::Local`] for local storage, [`FileOrigin::SDCard`] for files stored on the SD Card
     /// - `path` The name/path of the file for which to retrieve the information
     /// - `recursive` if set to true, return all files and folders recursively, otherwise only return items on the same level
+    /// 
+    /// Requires the `FILES_LIST` permission
     pub async fn get_file(
         &self,
         location: FileOrigin,
