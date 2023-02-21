@@ -1,6 +1,9 @@
+use std::any::type_name;
+
 use super::model::{FullStateResponse, StateExclude};
 use crate::client::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
+use reqwest::RequestBuilder;
 
 /// # Printer operations
 impl OctoClient {
@@ -19,7 +22,7 @@ impl OctoClient {
     ) -> Result<FullStateResponse, OctoClientError> {
         let url = "/api/printer";
 
-        let mut request_builder = self.get(url)?;
+        let mut request_builder:RequestBuilder = self.get(url)?;
 
         if history {
             request_builder = request_builder.query(&[("history", "true")])
@@ -33,9 +36,11 @@ impl OctoClient {
             let val = excluded_state
                 .iter()
                 .map(|e| format!("{e:?}"))
+                .map(|e| e.to_lowercase())
                 .collect::<Vec<String>>()
                 .join(",");
-            request_builder = request_builder.query(&["exclude", &val])
+
+            request_builder = request_builder.query(&[("exclude", &val)])
         }
 
         let request = request_builder

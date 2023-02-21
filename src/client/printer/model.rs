@@ -7,18 +7,18 @@ use self::temperature::TemperatureState;
 #[derive(Serialize, Deserialize)]
 pub struct FullStateResponse {
     /// The printer's temperature state data
-    temperature: Option<TemperatureState>,
+    pub temperature: Option<TemperatureState>,
     /// The printer's sd state data
-    sd: Option<SDState>,
+    pub sd: Option<SDState>,
     /// The printer's general state
-    state: Option<PrinterState>,
+    pub state: Option<PrinterState>,
 }
 
 /// Used exclusively in [`OctoClient::get_printer_state`]
 #[derive(Serialize, Deserialize, Debug)]
 pub enum StateExclude {
     Temperature,
-    History,
+    SD,
     State,
 }
 

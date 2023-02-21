@@ -1,7 +1,8 @@
-use error_stack::{IntoReport, Result, ResultExt};
-use reqwest::{Client, ClientBuilder, IntoUrl, Url};
+use std::fmt::Debug;
 
 use super::{error::BuilderError, AuthenticationMethod, OctoClient};
+use error_stack::{IntoReport, Result, ResultExt};
+use reqwest::{Client, ClientBuilder, IntoUrl, Url};
 
 pub struct OctoClientBuilder {
     builder: ClientBuilder,
@@ -11,9 +12,16 @@ pub struct OctoClientBuilder {
 
 impl OctoClientBuilder {
     pub fn new<U: IntoUrl>(url: U) -> Result<OctoClientBuilder, reqwest::Error> {
+        let url_printable = url.as_str().to_owned();
+
+        let url = url
+            .into_url()
+            .into_report()
+            .attach_printable_lazy(|| format!("{} is not a valid base URL", url_printable))?;
+
         Ok(OctoClientBuilder {
             builder: ClientBuilder::new(),
-            base_url: url.into_url()?,
+            base_url: url,
             auth_credentials: None,
         })
     }
