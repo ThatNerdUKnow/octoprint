@@ -8,20 +8,20 @@ lazy_static! {
 
 #[tokio::test]
 async fn printer_state() {
-    OCTO.get_printer_state(false, None).await.unwrap();
+    OCTO.get_printer_state(false, None, None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_history() {
-    OCTO.get_printer_state(true, None).await.unwrap();
+    OCTO.get_printer_state(true, None, None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_history_limit() {
-    OCTO.get_printer_state(true, Some(1)).await.unwrap();
+    OCTO.get_printer_state(true, Some(1), None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_limit() {
-    OCTO.get_printer_state(false, Some(1)).await.unwrap();
+    OCTO.get_printer_state(false, Some(1), None).await.unwrap();
 }

@@ -5,20 +5,21 @@ use serde::{Deserialize, Serialize};
 use self::temperature::TemperatureState;
 
 #[derive(Serialize, Deserialize)]
-pub enum FullStateResponse {
-    Online {
-        /// The printer's temperature state data
-        temperature: TemperatureState,
-        // The printer's sd state data
-        sd: SDState,
-        /// The printer's general state
-        state: PrinterState,
-    },
-    Offline {
-        /// The printer's general state
-        state: PrinterState,
-    },
-    Other,
+pub struct FullStateResponse {
+    /// The printer's temperature state data
+    temperature: Option<TemperatureState>,
+    /// The printer's sd state data
+    sd: Option<SDState>,
+    /// The printer's general state
+    state: Option<PrinterState>,
+}
+
+/// Used exclusively in [`OctoClient::get_printer_state`]
+#[derive(Serialize, Deserialize, Debug)]
+pub enum StateExclude {
+    Temperature,
+    History,
+    State,
 }
 
 /// The printer's general state

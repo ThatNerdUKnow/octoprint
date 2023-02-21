@@ -1,4 +1,4 @@
-use super::model::FullStateResponse;
+use super::model::{FullStateResponse, StateExclude};
 use crate::client::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
 
@@ -8,13 +8,14 @@ impl OctoClient {
     /// # Parameters
     /// - `history` set this to `true` if you want to retrieve historical temperature data
     /// - `limit` set this to [`Some<usize>`] to limit The number of history entries to return
-    /// - Note that this endpoint also supports the `exclude` query parameter, but for my own sanity, I've left this for later
+    /// - `exclude` a list of properties to exclude on the payload. Enumerated for convenience
     ///
     /// Requires the `STATUS` permission
     pub async fn get_printer_state(
         &self,
         history: bool,
         limit: Option<usize>,
+        exclude: Option<Vec<StateExclude>>,
     ) -> Result<FullStateResponse, OctoClientError> {
         let url = "/api/printer";
 
@@ -27,6 +28,15 @@ impl OctoClient {
         if let Some(limit_number) = limit {
             request_builder = request_builder.query(&[("limit", &format!("{limit_number}"))])
         };
+
+        if let Some(excluded_state) = exclude {
+            let val = excluded_state
+                .iter()
+                .map(|e| format!("{e:?}"))
+                .collect::<Vec<String>>()
+                .join(",");
+            request_builder = request_builder.query(&["exclude", &val])
+        }
 
         let request = request_builder
             .build()
