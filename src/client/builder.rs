@@ -1,5 +1,3 @@
-use std::fmt::Debug;
-
 use super::{error::BuilderError, AuthenticationMethod, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
 use reqwest::{Client, ClientBuilder, IntoUrl, Url};

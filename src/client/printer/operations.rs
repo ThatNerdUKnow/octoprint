@@ -1,5 +1,3 @@
-use std::any::type_name;
-
 use super::model::{FullStateResponse, StateExclude};
 use crate::client::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
