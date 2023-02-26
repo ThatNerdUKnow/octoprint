@@ -90,5 +90,6 @@ impl OctoClient {
 #[derive(Serialize, Deserialize)]
 pub struct RetrieveResponse {
     files: Vec<FileInfo>,
-    free: Option<String>,
+    free: Option<usize>,
+    total: Option<usize>,
 }
