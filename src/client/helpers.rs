@@ -69,11 +69,15 @@ impl OctoClient {
         &self,
         raw: Response,
     ) -> Result<T, OctoClientError> {
+
+        let url = raw.url().to_owned();
+
         let body = raw
             .text()
             .await
             .into_report()
             .change_context(OctoClientError::Parse)?;
+
 
         let body_pretty = {
             let val = serde_json::from_str::<Value>(&body)
@@ -90,7 +94,7 @@ impl OctoClient {
                 let type_name = type_name::<T>();
                 format!("Attempted to parse body as {type_name}")
             })
-            .attach_printable_lazy(|| "Raw body")
+            .attach_printable_lazy(|| format!("Raw body from {url}"))
             .attach_printable_lazy(|| body_pretty)
     }
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
