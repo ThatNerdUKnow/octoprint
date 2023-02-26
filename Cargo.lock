@@ -439,6 +439,7 @@ dependencies = [
  "lazy_static",
  "reqwest",
  "serde",
+ "serde_json",
  "strum",
  "strum_macros",
  "thiserror",

@@ -1,5 +1,8 @@
+use std::borrow::Cow;
+
 use reqwest::{Request, RequestBuilder, Response};
 use serde::de::DeserializeOwned;
+use serde_json::Value;
 
 use super::{error::OctoClientError, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
@@ -66,10 +69,21 @@ impl OctoClient {
         &self,
         raw: Response,
     ) -> Result<T, OctoClientError> {
-        raw.json::<T>()
-            .await
+        let body = Cow::from(
+            raw.text()
+                .await
+                .into_report()
+                .change_context(OctoClientError::Parse)?,
+        );
+
+        serde_json::from_str::<T>(&body)
             .into_report()
             .change_context(OctoClientError::Parse)
+            .attach_printable_lazy(||"Raw body")
+            .attach_printable_lazy(|| {
+                let val = serde_json::from_str::<Value>(&body).expect("Couldn't pretty print raw json");
+                serde_json::to_string_pretty(&val).expect("Couldn't pretty print json")
+            })
     }
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
     fn add_auth(&self, request: RequestBuilder) -> RequestBuilder {
