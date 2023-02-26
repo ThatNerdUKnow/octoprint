@@ -4,10 +4,11 @@ use serde::{Serialize, Deserialize};
 pub struct CurrentUser{
     /// The id of the current user. Unset if guest.
     pub name: String,
-    /// The effective list of permissions assigned to the user
-    pub permissions: Vec<PermissionRecord>,
+    /// The effective list of permissions assigned to the user. In theory this should be of type [`Vec<PermissionRecord>`] according to the 
+    /// octoprint api documentation, but in practice it's a list of strings
+    pub permissions: Vec<String>,
     /// The list of groups assigned to the user
-    pub groups: Vec<PermissionRecord>
+    pub groups: Vec<String>
 }
 
 #[derive(Serialize,Deserialize)]
