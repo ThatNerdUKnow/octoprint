@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{any::type_name, borrow::Cow};
 
 use reqwest::{Request, RequestBuilder, Response};
 use serde::de::DeserializeOwned;
@@ -86,6 +86,10 @@ impl OctoClient {
         serde_json::from_str::<T>(&body_pretty)
             .into_report()
             .change_context(OctoClientError::Parse)
+            .attach_printable_lazy(|| {
+                let type_name = type_name::<T>();
+                format!("Attempted to parse body as {type_name}")
+            })
             .attach_printable_lazy(|| "Raw body")
             .attach_printable_lazy(|| body_pretty)
     }
