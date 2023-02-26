@@ -68,7 +68,7 @@ pub struct ServerInfo {
     /// Contains the server version
     pub version: String,
     /// Indicates if the server is running in safe mode
-    pub safemode: SafeMode,
+    pub safemode: Option<SafeMode>,
 }
 
 #[derive(Serialize, Deserialize)]
