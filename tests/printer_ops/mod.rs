@@ -12,6 +12,7 @@ async fn printer_state() {
 }
 
 #[tokio::test]
+/// TODO for some reason the executor drops before this future resolves. super weird considering it's virtually idendical to [`printer_state`]
 async fn printer_state_history() {
     OCTO.get_printer_state(true, None, None).await.unwrap();
 }
