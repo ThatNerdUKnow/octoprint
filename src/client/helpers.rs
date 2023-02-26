@@ -69,21 +69,25 @@ impl OctoClient {
         &self,
         raw: Response,
     ) -> Result<T, OctoClientError> {
-        let body = Cow::from(
-            raw.text()
-                .await
-                .into_report()
-                .change_context(OctoClientError::Parse)?,
-        );
+        let body = raw
+            .text()
+            .await
+            .into_report()
+            .change_context(OctoClientError::Parse)?;
 
-        serde_json::from_str::<T>(&body)
+        let body_pretty = {
+            let val = serde_json::from_str::<Value>(&body)
+                .and_then(|value| serde_json::to_string_pretty(&value));
+            val
+        }
+        .into_report()
+        .change_context(OctoClientError::Parse)?;
+
+        serde_json::from_str::<T>(&body_pretty)
             .into_report()
             .change_context(OctoClientError::Parse)
-            .attach_printable_lazy(||"Raw body")
-            .attach_printable_lazy(|| {
-                let val = serde_json::from_str::<Value>(&body).expect("Couldn't pretty print raw json");
-                serde_json::to_string_pretty(&val).expect("Couldn't pretty print json")
-            })
+            .attach_printable_lazy(|| "Raw body")
+            .attach_printable_lazy(|| body_pretty)
     }
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
     fn add_auth(&self, request: RequestBuilder) -> RequestBuilder {
