@@ -1,6 +1,6 @@
 [package]
 name = "octoprint"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "(WIP) A client library for the Octoprint REST API"
 license = "GPL-3.0-or-later"
