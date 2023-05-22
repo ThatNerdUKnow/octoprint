@@ -16,9 +16,9 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let current_user = self.parse::<CurrentUser>(raw).await;
+        
 
-        current_user
+        self.parse::<CurrentUser>(raw).await
     }
 
     /// Retrieve information regarding server and API version.
@@ -31,8 +31,8 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let version_info = self.parse::<VersionInfo>(raw).await;
-        version_info
+        
+        self.parse::<VersionInfo>(raw).await
     }
 
     /// Retrieve information regarding server status.
@@ -45,9 +45,9 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let server_info = self.parse::<ServerInfo>(raw).await;
+        
 
-        server_info
+        self.parse::<ServerInfo>(raw).await
     }
 }
 

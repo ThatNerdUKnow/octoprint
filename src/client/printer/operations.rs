@@ -48,8 +48,8 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let printer_state = self.parse::<FullStateResponse>(raw).await;
+        
 
-        printer_state
+        self.parse::<FullStateResponse>(raw).await
     }
 }

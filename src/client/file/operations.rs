@@ -45,9 +45,9 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let response = self.parse::<RetrieveResponse>(raw).await;
+        
 
-        response
+        self.parse::<RetrieveResponse>(raw).await
     }
 
     /// Retrieves the selected file or folder's information.
@@ -70,7 +70,7 @@ impl OctoClient {
 
         let mut request_builder = self.get(&url)?;
 
-        if recursive == true {
+        if recursive {
             request_builder = request_builder.query(&[("recursive", true)])
         }
 
@@ -81,9 +81,9 @@ impl OctoClient {
 
         let raw = self.execute(request).await?;
 
-        let file_info = self.parse(raw).await;
+        
 
-        file_info
+        self.parse(raw).await
     }
 }
 

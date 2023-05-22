@@ -21,8 +21,8 @@ impl OctoClient {
         let raw = self.execute(request).await?;
 
         // Parse response
-        let response = self.parse::<JobInformationResponse>(raw).await;
-        response
+        
+        self.parse::<JobInformationResponse>(raw).await
     }
 }
 /*
@@ -46,7 +46,7 @@ pub struct JobInformationResponse {
 pub enum JobInformationResponse {
     Online {
         /// Information regarding the target of the current print job
-        job: JobInfo,
+        job: Box<JobInfo>,
         /// Information regarding the progress of the current print job
         progress: ProgressInfo,
         /// A textual representation of the current state of the job

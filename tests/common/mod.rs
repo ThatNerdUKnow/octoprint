@@ -14,6 +14,6 @@ pub fn get_client() -> OctoClient {
     let creds: AuthenticationMethod = AuthenticationMethod::Bearer(key);
     builder = builder.use_credentials(creds);
 
-    let octo = builder.build().unwrap();
-    octo
+    
+    builder.build().unwrap()
 }

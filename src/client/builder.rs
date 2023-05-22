@@ -29,7 +29,7 @@ impl OctoClientBuilder {
         let client: Client = self.builder.build().into_report().change_context(err)?;
         let credentials = self.auth_credentials.ok_or(BuilderError::Build)?;
         Ok(OctoClient {
-            client: client,
+            client,
             base_url: self.base_url,
             auth_credentials: credentials,
         })

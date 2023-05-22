@@ -1,4 +1,4 @@
-use std::{any::type_name, borrow::Cow};
+use std::any::type_name;
 
 use reqwest::{Request, RequestBuilder, Response};
 use serde::de::DeserializeOwned;
@@ -36,6 +36,7 @@ impl OctoClient {
     ///
     /// * `path` - A relative HTTP path
     /// * `payload` - A serialized body for this post request
+    #[allow(dead_code)]
     pub(super) fn post(
         &self,
         path: &str,
@@ -56,12 +57,12 @@ impl OctoClient {
 
     /// Execute a request and wrap it in an [`OctoClientError`] context in the event of an error
     pub(super) async fn execute(&self, request: Request) -> Result<Response, OctoClientError> {
-        Ok(self
+        self
             .client
             .execute(request)
             .await
             .into_report()
-            .change_context(OctoClientError::Execute)?)
+            .change_context(OctoClientError::Execute)
     }
 
     /// Parse a response and wrap it in an [`OctoClientError`] in the event of an error
@@ -69,7 +70,6 @@ impl OctoClient {
         &self,
         raw: Response,
     ) -> Result<T, OctoClientError> {
-
         let url = raw.url().to_owned();
 
         let body = raw
@@ -78,11 +78,10 @@ impl OctoClient {
             .into_report()
             .change_context(OctoClientError::Parse)?;
 
-
         let body_pretty = {
-            let val = serde_json::from_str::<Value>(&body)
-                .and_then(|value| serde_json::to_string_pretty(&value));
-            val
+            
+            serde_json::from_str::<Value>(&body)
+                .and_then(|value| serde_json::to_string_pretty(&value))
         }
         .into_report()
         .change_context(OctoClientError::Parse)?;

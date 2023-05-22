@@ -1,6 +1,7 @@
 use error_stack::{IntoReport, Result};
 use reqwest::Url;
 use reqwest::{Client, IntoUrl};
+use serde::{Deserialize, Serialize};
 
 mod builder;
 pub mod error;
@@ -22,18 +23,19 @@ pub struct OctoClient {
     auth_credentials: AuthenticationMethod,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub enum AuthenticationMethod {
     Bearer(String),
     Basic { username: String, password: String },
 }
 
 impl OctoClient {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new<U: IntoUrl>(url: U) -> Result<OctoClientBuilder, reqwest::Error> {
         OctoClientBuilder::new(url)
     }
 
-    fn append_path_to_base_url<'a>(&self, path: &'a str) -> Result<Url, url::ParseError> {
-        let url = self.base_url.join(path).into_report();
-        url
+    fn append_path_to_base_url(&self, path: &str) -> Result<Url, url::ParseError> {
+        self.base_url.join(path).into_report()
     }
 }
