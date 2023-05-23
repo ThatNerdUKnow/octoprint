@@ -1,4 +1,4 @@
-use std::any::type_name;
+use std::{any::type_name, borrow::Borrow};
 
 use reqwest::{Request, RequestBuilder, Response};
 use serde::de::DeserializeOwned;
@@ -98,7 +98,7 @@ impl OctoClient {
     }
     /// Add proper authentication headers depending on authentication method provided to [`crate::client::OctoClientBuilder::use_credentials`]
     fn add_auth(&self, request: RequestBuilder) -> RequestBuilder {
-        match &self.auth_credentials {
+        match self.auth_credentials.borrow() {
             super::AuthenticationMethod::Bearer(token) => request.bearer_auth(token),
             super::AuthenticationMethod::Basic { username, password } => {
                 request.basic_auth(username, Some(password))

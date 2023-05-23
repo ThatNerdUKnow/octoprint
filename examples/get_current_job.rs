@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let creds: AuthenticationMethod = AuthenticationMethod::Bearer(key);
 
     // Instantiate a client
-    let octo = OctoClient::new(&url)?.use_credentials(creds).build()?;
+    let octo = OctoClient::new(&url)?.use_credentials(creds.into()).build()?;
 
     // execute a query against the octoprint api to get the current job
     let current_job = octo.current_job().await?;

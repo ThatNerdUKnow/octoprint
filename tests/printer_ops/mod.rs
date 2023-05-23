@@ -1,36 +1,36 @@
 use crate::common::get_client;
-use lazy_static::lazy_static;
-use octoprint::client::{printer::model::StateExclude, OctoClient};
-
-lazy_static! {
-    static ref OCTO: OctoClient = get_client();
-}
+use octoprint::client::printer::model::StateExclude;
 
 #[tokio::test]
 async fn printer_state() {
-    OCTO.get_printer_state(false, None, None).await.unwrap();
+    let octo = get_client();
+    octo.get_printer_state(false, None, None).await.unwrap();
 }
 
 #[tokio::test]
 /// TODO for some reason the executor drops before this future resolves. super weird considering it's virtually idendical to [`printer_state`]
 async fn printer_state_history() {
-    OCTO.get_printer_state(true, None, None).await.unwrap();
+    let octo = get_client();
+    octo.get_printer_state(true, None, None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_history_limit() {
-    OCTO.get_printer_state(true, Some(1), None).await.unwrap();
+    let octo = get_client();
+    octo.get_printer_state(true, Some(1), None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_limit() {
-    OCTO.get_printer_state(false, Some(1), None).await.unwrap();
+    let octo = get_client();
+    octo.get_printer_state(false, Some(1), None).await.unwrap();
 }
 
 #[tokio::test]
 async fn printer_state_exclude_state() {
+    let octo = get_client();
     let excluded = vec![StateExclude::State];
-    let state = OCTO
+    let state = octo
         .get_printer_state(false, None, Some(excluded))
         .await
         .unwrap();
@@ -40,8 +40,9 @@ async fn printer_state_exclude_state() {
 
 #[tokio::test]
 async fn printer_state_exclude_temperature() {
+    let octo = get_client();
     let excluded = vec![StateExclude::Temperature];
-    let state = OCTO
+    let state = octo
         .get_printer_state(false, None, Some(excluded))
         .await
         .unwrap();
@@ -51,8 +52,9 @@ async fn printer_state_exclude_temperature() {
 
 #[tokio::test]
 async fn printer_state_exclude_sd() {
+    let octo = get_client();
     let excluded = vec![StateExclude::SD];
-    let state = OCTO
+    let state = octo
         .get_printer_state(false, None, Some(excluded))
         .await
         .unwrap();

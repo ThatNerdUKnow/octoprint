@@ -12,7 +12,7 @@ pub fn get_client() -> OctoClient {
     let mut builder = OctoClient::new(url).unwrap();
 
     let creds: AuthenticationMethod = AuthenticationMethod::Bearer(key);
-    builder = builder.use_credentials(creds);
+    builder = builder.use_credentials(creds.into());
 
     
     builder.build().unwrap()
