@@ -1,4 +1,3 @@
-
 use std::sync::Arc;
 
 use error_stack::{IntoReport, Result};
@@ -27,6 +26,7 @@ pub struct OctoClient {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum AuthenticationMethod {
     Bearer(String),
     Basic { username: String, password: String },
