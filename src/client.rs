@@ -1,4 +1,5 @@
-use std::rc::Rc;
+
+use std::sync::Arc;
 
 use error_stack::{IntoReport, Result};
 use reqwest::Url;
@@ -22,7 +23,7 @@ pub use builder::OctoClientBuilder;
 pub struct OctoClient {
     client: Client,
     base_url: Url,
-    auth_credentials: Rc<AuthenticationMethod>,
+    auth_credentials: Arc<AuthenticationMethod>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use super::{error::BuilderError, AuthenticationMethod, OctoClient};
 use error_stack::{IntoReport, Result, ResultExt};
@@ -7,7 +7,7 @@ use reqwest::{Client, ClientBuilder, IntoUrl, Url};
 pub struct OctoClientBuilder {
     builder: ClientBuilder,
     base_url: Url,
-    auth_credentials: Option<Rc<AuthenticationMethod>>,
+    auth_credentials: Option<Arc<AuthenticationMethod>>,
 }
 
 impl OctoClientBuilder {
@@ -37,7 +37,7 @@ impl OctoClientBuilder {
         })
     }
 
-    pub fn use_credentials(mut self, creds: Rc<AuthenticationMethod>) -> Self {
+    pub fn use_credentials(mut self, creds: Arc<AuthenticationMethod>) -> Self {
         self.auth_credentials = Some(creds);
         self
     }
